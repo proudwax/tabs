@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+.idea/
+*.iml
+.project
+.svn
+bundles/img
+npm-debug.log

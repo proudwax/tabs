@@ -47,6 +47,7 @@ gulp.task('scripts', function() {
         'blocks/**/*.js'
         ]) // Берем все js из папки blocks
         .pipe(concat('scripts.min.js')) // Собираем их в кучу в новом файле scripts.min.js
+        .pipe(babel({ presets: ['es2015'] }))
         .pipe(gulp.dest('bundles')) // Выгружаем в папку bundles
         .pipe(browserSync.reload({stream: true})); // Обновляем JS на странице при изменении
 });
@@ -86,11 +87,14 @@ gulp.task('build', ['clean', 'scripts'], function() {
 		'bundles/*.css'
 		])
     .pipe(csso())
-	.pipe(gulp.dest('dist'))
+	.pipe(gulp.dest('dist'));
 
 	var buildJs = gulp.src('bundles/*.js') // Переносим скрипты в продакшен
     .pipe(uglify()) // Сжимаем JS файл
-	.pipe(gulp.dest('dist'))
+	.pipe(gulp.dest('dist'));
+
+    var buildImg= gulp.src('bundles/img/*.+(jpg|jpeg|png|gif|svg)', { passthrough: true })
+    .pipe(gulp.dest('dist/img/'));
 
 	var buildHtml = gulp.src('bundles/*.html') // Переносим HTML в продакшен
     .pipe(htmlmin({collapseWhitespace: true}))
